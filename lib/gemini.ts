@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { startActiveObservation } from '@langfuse/tracing';
 
 let genAI: GoogleGenerativeAI | null = null;
 
@@ -16,23 +17,38 @@ export async function callGemini(
   prompt: string,
   systemInstruction?: string
 ): Promise<string> {
-  if (genAI) {
-    try {
-      const model = genAI.getGenerativeModel({
-        model: modelName.includes('pro') ? 'gemini-1.5-pro' : 'gemini-1.5-flash',
-        systemInstruction: systemInstruction ? { role: 'system', parts: [{ text: systemInstruction }] } : undefined,
-      });
+  return await startActiveObservation('gemini-call', async (span) => {
+    span.update({
+      input: {
+        modelName,
+        prompt,
+        systemInstruction: systemInstruction ?? null,
+      },
+    });
 
-      const result = await model.generateContent(prompt);
-      const text = result.response.text();
-      if (text) return text;
-    } catch (apiError) {
-      console.warn(`[Gemini API Warning for ${modelName}]: Falling back to local reasoning engine.`, apiError);
+    if (genAI) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: modelName.includes('pro') ? 'gemini-1.5-pro' : 'gemini-1.5-flash',
+          systemInstruction: systemInstruction ? { role: 'system', parts: [{ text: systemInstruction }] } : undefined,
+        });
+
+        const result = await model.generateContent(prompt);
+        const text = result.response.text();
+        if (text) {
+          span.update({ output: text, metadata: { provider: 'google-gemini', fallback: false } });
+          return text;
+        }
+      } catch (apiError) {
+        console.warn(`[Gemini API Warning for ${modelName}]: Falling back to local reasoning engine.`, apiError);
+      }
     }
-  }
 
-  // Graceful deterministic deliberation fallback to guarantee offline resilience during demos
-  return fallbackDeliberation(modelName, prompt);
+    // Graceful deterministic deliberation fallback to guarantee offline resilience during demos
+    const fallback = fallbackDeliberation(modelName, prompt);
+    span.update({ output: fallback, metadata: { provider: 'fallback', fallback: true } });
+    return fallback;
+  });
 }
 
 function fallbackDeliberation(modelName: string, prompt: string): string {

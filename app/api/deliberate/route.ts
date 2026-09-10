@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
+import { observe } from '@langfuse/tracing';
 import { rebacEngine } from '@/lib/rebac-engine';
 import { chpEngine } from '@/lib/chp-engine';
+import { langfuseSpanProcessor } from '@/lib/observability/langfuse';
 
-export async function POST(req: Request) {
+const handler = async (req: Request) => {
   try {
     const body = await req.json();
     const {
@@ -62,5 +64,9 @@ export async function POST(req: Request) {
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : 'Unknown error during deliberation';
     return NextResponse.json({ error: errorMessage }, { status: 500 });
+  } finally {
+    await langfuseSpanProcessor.forceFlush();
   }
-}
+};
+
+export const POST = observe(handler, { name: 'api.deliberate' });
