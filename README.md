@@ -28,6 +28,12 @@
 
 A complete scene-by-scene demo video storyboard with Veo and Gemini generation prompts is documented at [docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md).
 
+Presentation deck: [sovereign-mesh-slides.html](sovereign-mesh-slides.html)
+
+PDF deck: [assets/sovereign-mesh-slides.pdf](assets/sovereign-mesh-slides.pdf)
+
+Thumbnail: [assets/sovereign-mesh-slides-thumbnail.svg](assets/sovereign-mesh-slides-thumbnail.svg)
+
 ```
 [0:00 - 0:30] Phase 1: Why agentic apps fail in production
 [0:30 - 1:15] Phase 2: Control plane architecture, policy gating, and runtime resilience
