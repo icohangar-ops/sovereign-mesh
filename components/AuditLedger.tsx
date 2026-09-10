@@ -31,7 +31,7 @@ export function AuditLedger({ locks }: AuditLedgerProps) {
     downloadAnchor.setAttribute('href', dataStr);
     downloadAnchor.setAttribute(
       'download',
-      `sovereign_mesh_cert_${lock.id}.json`
+      `agent_control_plane_cert_${lock.id}.json`
     );
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
@@ -43,10 +43,10 @@ export function AuditLedger({ locks }: AuditLedgerProps) {
       <div className="panel-header">
         <div>
           <h2 className="panel-title">
-            <FileCheck size={16} /> Immutable Decision Ledger & Certificates
+            <FileCheck size={16} /> Signed Trace Ledger & Certificates
           </h2>
           <p className="brand-subtitle">
-            Cryptographically signed consensus records, SHA-256 state hashes, and verifiable audit chains
+            Cryptographically signed consensus records, SHA-256 trace hashes, and verifiable audit chains
           </p>
         </div>
         <span className="status-badge">
@@ -59,7 +59,7 @@ export function AuditLedger({ locks }: AuditLedgerProps) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {locks.length === 0 ? (
             <div className="panel-card" style={{ textAlign: 'center', padding: '32px 20px', color: 'var(--text-muted)' }}>
-              No decisions signed yet. Run a scenario in the Deliberation Arena.
+              No traces signed yet. Run a scenario in the Consensus Arena.
             </div>
           ) : (
             locks.map((lock) => (

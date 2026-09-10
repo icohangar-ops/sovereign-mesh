@@ -8,6 +8,7 @@ import {
   SignedDecisionLock,
   MemoryEntity,
   EnterpriseScenario,
+  RuntimeAssessment,
 } from '@/lib/types';
 import { ENTERPRISE_SCENARIOS } from '@/lib/scenarios';
 import { initialFleetAgents } from '@/lib/rebac-engine';
@@ -16,6 +17,7 @@ import { ZeroTrustGate } from '@/components/ZeroTrustGate';
 import { FleetRegistry } from '@/components/FleetRegistry';
 import { MemoryBankViewer } from '@/components/MemoryBankViewer';
 import { AuditLedger } from '@/components/AuditLedger';
+import { RuntimeControl } from '@/components/RuntimeControl';
 import {
   ShieldCheck,
   Cpu,
@@ -25,7 +27,7 @@ import {
   Flame,
 } from 'lucide-react';
 
-type TabType = 'arena' | 'rebac' | 'fleet' | 'memory' | 'audit';
+type TabType = 'arena' | 'rebac' | 'fleet' | 'memory' | 'audit' | 'runtime';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>('arena');
@@ -37,6 +39,7 @@ export default function Home() {
   );
   const [activeLock, setActiveLock] = useState<SignedDecisionLock | null>(null);
   const [lastRebac, setLastRebac] = useState<RebacCheckResult | null>(null);
+  const [runtimeAssessment, setRuntimeAssessment] = useState<RuntimeAssessment | null>(null);
   const [locks, setLocks] = useState<SignedDecisionLock[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -64,14 +67,32 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
+  const runRuntimeProbe = async (decisionId = `dec-${Date.now()}`) => {
+    const res = await fetch('/api/runtime', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        decisionId,
+        title: currentScenario.name,
+        payload: currentScenario.proposedAction.parameters,
+      }),
+    });
+    const data = await res.json();
+    if (data.assessment) {
+      setRuntimeAssessment(data.assessment);
+    }
+    return data.assessment as RuntimeAssessment | undefined;
+  };
+
   const handleRunDeliberation = async () => {
     setIsLoading(true);
     try {
+      const decisionId = `dec-${Date.now()}`;
       const res = await fetch('/api/deliberate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          decisionId: `dec-${Date.now()}`,
+          decisionId,
           title: currentScenario.name,
           agentId: currentScenario.initiatingAgentId,
           resource: currentScenario.proposedAction.resource,
@@ -88,6 +109,7 @@ export default function Home() {
         setActiveLock(data.lock);
         setLocks((prev) => [data.lock, ...prev.filter((l) => l.id !== data.lock.id)]);
       }
+      await runRuntimeProbe(decisionId);
     } catch (err) {
       console.error('Deliberation error:', err);
     } finally {
@@ -141,19 +163,19 @@ export default function Home() {
             <ShieldCheck size={24} />
           </div>
           <div>
-            <h1 className="brand-title">SovereignMesh Control Plane</h1>
+            <h1 className="brand-title">Agent Control Plane</h1>
             <p className="brand-subtitle">
-              Zero-Trust Autonomous Agent Fleet • Google Cloud Vertex AI & Gemini 2.5 • GEAP Architecture
+              Resilience, consensus hardening, and signed traces for production AI workflows
             </p>
           </div>
         </div>
 
         <div className="header-meta">
           <span className="status-badge">
-            <span className="pulse-dot"></span> MESH ARMED
+            <span className="pulse-dot"></span> CONTROL PLANE ARMED
           </span>
           <span className="adc-badge">
-            <Flame size={12} style={{ color: 'var(--accent-amber)' }} /> GCP Project: project-651348c0
+            <Flame size={12} style={{ color: 'var(--accent-amber)' }} /> AI INFRA SUMMIT BUILD
           </span>
         </div>
       </header>
@@ -164,31 +186,37 @@ export default function Home() {
           onClick={() => setActiveTab('arena')}
           className={`nav-tab ${activeTab === 'arena' ? 'active' : ''}`}
         >
-          <Cpu size={15} /> Deliberation Arena (CHP)
+          <Cpu size={15} /> Consensus Arena
         </button>
         <button
           onClick={() => setActiveTab('rebac')}
           className={`nav-tab ${activeTab === 'rebac' ? 'active' : ''}`}
         >
-          <Key size={15} /> Zero-Trust ReBAC Gate
+          <Key size={15} /> Policy Gate
         </button>
         <button
           onClick={() => setActiveTab('fleet')}
           className={`nav-tab ${activeTab === 'fleet' ? 'active' : ''}`}
         >
-          <ShieldCheck size={15} /> Fleet Manifest (AGENTS.md)
+          <ShieldCheck size={15} /> Agent Mesh
+        </button>
+        <button
+          onClick={() => setActiveTab('runtime')}
+          className={`nav-tab ${activeTab === 'runtime' ? 'active' : ''}`}
+        >
+          <Flame size={15} /> Runtime Shield
         </button>
         <button
           onClick={() => setActiveTab('memory')}
           className={`nav-tab ${activeTab === 'memory' ? 'active' : ''}`}
         >
-          <Database size={15} /> GEAP Memory Bank
+          <Database size={15} /> Evidence Bank
         </button>
         <button
           onClick={() => setActiveTab('audit')}
           className={`nav-tab ${activeTab === 'audit' ? 'active' : ''}`}
         >
-          <FileCheck size={15} /> Signed Decision Ledger ({locks.length})
+          <FileCheck size={15} /> Signed Trace Ledger ({locks.length})
         </button>
       </nav>
 
@@ -200,6 +228,7 @@ export default function Home() {
             setCurrentScenario(scen);
             setActiveLock(null);
             setLastRebac(null);
+            setRuntimeAssessment(null);
           }}
           scenarios={ENTERPRISE_SCENARIOS}
           activeLock={activeLock}
@@ -215,6 +244,17 @@ export default function Home() {
           tuples={tuples}
           lastEvaluation={lastRebac}
           onTestEvaluation={handleTestEvaluation}
+          isLoading={isLoading}
+        />
+      )}
+
+      {activeTab === 'runtime' && (
+        <RuntimeControl
+          currentScenario={currentScenario}
+          assessment={runtimeAssessment}
+          onRunProbe={() => {
+            void runRuntimeProbe();
+          }}
           isLoading={isLoading}
         />
       )}

@@ -32,10 +32,14 @@ export function MemoryBankViewer({ entities }: MemoryBankViewerProps) {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'VENDOR':
-        return <Building size={16} className="speaker-proposer" />;
-      case 'IAM_POLICY':
+      case 'SERVICE':
+        return <Database size={16} className="speaker-proposer" />;
+      case 'MODEL':
+        return <Building size={16} className="speaker-challenger" />;
+      case 'RELEASE':
         return <ShieldAlert size={16} className="speaker-challenger" />;
+      case 'AUDIT':
+        return <FileText size={16} className="speaker-adjudicator" />;
       default:
         return <FileText size={16} className="speaker-adjudicator" />;
     }
@@ -46,10 +50,10 @@ export function MemoryBankViewer({ entities }: MemoryBankViewerProps) {
       <div className="panel-header">
         <div>
           <h2 className="panel-title">
-            <Database size={16} /> GEAP Memory Bank (Enterprise State Store)
+            <Database size={16} /> Evidence Bank (Runtime State Store)
           </h2>
           <p className="brand-subtitle">
-            Long-term cross-session entity memory, vendor baselines, and cryptographic audit records
+            Long-term cross-session state, model baselines, and signed audit records
           </p>
         </div>
         <span className="status-badge">
@@ -71,7 +75,7 @@ export function MemoryBankViewer({ entities }: MemoryBankViewerProps) {
           />
           <input
             type="text"
-            placeholder="Search Memory Bank by vendor name, routing number, IAM role, or ID..."
+            placeholder="Search evidence by service, model, release, or ID..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{
@@ -88,7 +92,7 @@ export function MemoryBankViewer({ entities }: MemoryBankViewerProps) {
         </div>
 
         <div style={{ display: 'flex', gap: '6px' }}>
-          {['ALL', 'VENDOR', 'IAM_POLICY', 'AUDIT'].map((cat) => (
+          {['ALL', 'SERVICE', 'MODEL', 'RELEASE', 'AUDIT'].map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}

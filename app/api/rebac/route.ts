@@ -5,7 +5,7 @@ export async function GET() {
   return NextResponse.json({
     tuples: rebacEngine.getTuples(),
     schema: `definition user {}
-definition enterprise_resource {
+definition control_plane_resource {
     relation viewer: user
     relation editor: user
     relation executor: user

@@ -8,8 +8,6 @@ import {
   Receipt,
   Crosshair,
   Scale,
-  CheckCircle2,
-  AlertTriangle,
   Cpu,
   Lock,
 } from 'lucide-react';
@@ -54,10 +52,10 @@ export function FleetRegistry({ agents }: FleetRegistryProps) {
       <div className="panel-header">
         <div>
           <h2 className="panel-title">
-            <Lock size={16} /> Enterprise Fleet Manifest (AGENTS.md)
+            <Lock size={16} /> Agent Mesh Manifest
           </h2>
           <p className="brand-subtitle">
-            Authenticated and policy-governed autonomous agents under Google Zanzibar Zero-Trust control
+            Authenticated and policy-governed agents under Google Zanzibar Zero-Trust control
           </p>
         </div>
         <span className="status-badge">
@@ -86,8 +84,8 @@ export function FleetRegistry({ agents }: FleetRegistryProps) {
             </p>
 
             <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '10px', marginTop: '4px' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 600 }}>
-                ZANZIBAR CAPABILITY SCOPES
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 600 }}>
+                CAPABILITY SCOPES
               </div>
               <div className="citation-list">
                 {agent.capabilities.map((cap) => (

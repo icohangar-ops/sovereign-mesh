@@ -60,9 +60,9 @@ export function DeliberationCouncil({
       {/* Enterprise Scenario Quick Selector */}
       <div className="scenario-banner">
         <div className="scenario-header">
-          <span className="scenario-title">Enterprise Test Scenarios</span>
+          <span className="scenario-title">AI Infra Stress Scenarios</span>
           <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-            Select a benchmark scenario to observe autonomous fleet governance
+            Select a benchmark scenario to observe the control plane under load
           </span>
         </div>
 
@@ -112,9 +112,9 @@ export function DeliberationCouncil({
             </div>
 
             <div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '4px' }}>
-                TARGET RESOURCE & PERMISSION
-              </div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '4px' }}>
+                  TARGET RESOURCE & PERMISSION
+                </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--accent-cyan)' }}>
                 {currentScenario.proposedAction.resource} : {currentScenario.proposedAction.permission}
               </div>
@@ -130,9 +130,9 @@ export function DeliberationCouncil({
             </div>
 
             <div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '4px' }}>
-                RAW AGENT INPUT TEXT
-              </div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '4px' }}>
+                  RAW REQUEST TEXT
+                </div>
               <div
                 style={{
                   fontSize: '11px',
@@ -158,7 +158,7 @@ export function DeliberationCouncil({
                 <>Deliberating across Fleet...</>
               ) : (
                 <>
-                  <Sparkles size={16} /> Execute Adversarial CHP Council
+                  <Sparkles size={16} /> Execute Consensus Council
                 </>
               )}
             </button>
@@ -169,7 +169,7 @@ export function DeliberationCouncil({
             <div className="panel-card">
               <div className="panel-header">
                 <span className="panel-title">
-                  <ShieldAlert size={14} /> Zero-Trust ReBAC & Model Armor
+                  <ShieldAlert size={14} /> Policy Gate & Model Armor
                 </span>
                 <span
                   className={`lock-status-badge ${
@@ -213,7 +213,7 @@ export function DeliberationCouncil({
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>
-                      SOVEREIGN ADJUDICATOR VERDICT
+                      ADJUDICATOR VERDICT
                     </div>
                     <div style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>
                       {activeLock.title}
@@ -292,7 +292,7 @@ export function DeliberationCouncil({
               <div className="panel-card">
                 <div className="panel-header">
                   <span className="panel-title">
-                    <Scale size={16} /> Adversarial Deliberation Timeline (CHP v1.0)
+                    <Scale size={16} /> Deliberation Timeline (CHP v1.0)
                   </span>
                   <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                     3 AGENTS PARTICIPATING
@@ -371,7 +371,7 @@ export function DeliberationCouncil({
                 Consensus Hardening Protocol Standby
               </div>
               <p style={{ maxWidth: '440px', fontSize: '12px' }}>
-                Select an enterprise scenario on the left and click <strong>Execute Adversarial CHP Council</strong> to trigger multi-agent challenge rounds and view the verified decision lock.
+                Select a scenario on the left and click <strong>Execute Consensus Council</strong> to trigger multi-agent challenge rounds and view the verified decision lock.
               </p>
             </div>
           )}

@@ -1,9 +1,9 @@
 <div align="center">
 
-# 🛡️ SovereignMesh
+# 🛡️ Agent Control Plane
 
-**The Zero-Trust, Self-Governing Enterprise Agent Fleet**  
-*Built for the [All Things Agentic Hackathon](https://allthingsagentichackathon.devpost.com/) — The Fortified Enterprise Fleet Track*
+**The production-grade runtime for multi-agent AI workflows**  
+*Built for the [AI Infra Summit Hackathon](https://lablab.ai/ai-hackathons/ai-infra-summit-hackathon)*
 
 [![Gemini 2.5](https://img.shields.io/badge/Model-Gemini%202.5%20Flash%20%7C%20Pro-4285F4?logo=google)](https://ai.google.dev)
 [![Google Cloud GEAP](https://img.shields.io/badge/Architecture-GEAP%20Control%20Plane-34A853?logo=googlecloud)](https://cloud.google.com)
@@ -16,7 +16,9 @@
 
 <br/>
 
-<img src="assets/thumbnail.jpg" alt="SovereignMesh Control Plane" width="100%" style="border-radius: 10px;" />
+[<img src="assets/thumbnail.jpg" alt="Agent Control Plane" width="100%" style="border-radius: 10px;" />](assets/demo_video.mp4)
+
+**Watch the demo:** [assets/demo_video.mp4](assets/demo_video.mp4)
 
 </div>
 
@@ -27,49 +29,49 @@
 A complete scene-by-scene demo video storyboard with Veo and Gemini generation prompts is documented at [docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md).
 
 ```
-[0:00 - 0:30] Phase 1: The Crisis of Enterprise AI Blast Radiuses
-[0:30 - 1:15] Phase 2: SovereignMesh Architecture & Google Zanzibar ReBAC
-[1:15 - 2:05] Phase 3: Live Attack Demo — Tampered Invoice & Adversarial Red Team
-[2:05 - 2:40] Phase 4: Legitimate Clearance & SHA-256 Decision Lock
-[2:40 - 3:00] Phase 5: Conclusion & Production Enterprise Impact
+[0:00 - 0:30] Phase 1: Why agentic apps fail in production
+[0:30 - 1:15] Phase 2: Control plane architecture, policy gating, and runtime resilience
+[1:15 - 2:05] Phase 3: Live stress test — retry storm, breaker trip, and consensus lock
+[2:05 - 2:40] Phase 4: Signed trace ledger and replayable evidence
+[2:40 - 3:00] Phase 5: Conclusion & production impact
 ```
 
 ---
 
-## ⚡ The Enterprise Problem
+## ⚡ The Infra Problem
 
-Enterprise adoption of autonomous multi-agent systems is paralyzed by three fundamental security barriers:
+Production AI systems fail in three predictable ways:
 
-1. **Unbounded Tool Execution & Blast Radius:** Agents invoke critical enterprise tools (ERP payments, GCP IAM, database mutations) with static ambient credentials without granular least-privilege checks.
-2. **High-Stakes Single-Agent Hallucinations & Injections:** When a single model orchestrates critical financial or infrastructure actions, it is susceptible to indirect prompt injection, data poisoning, and hallucinated parameters.
-3. **Absence of Verifiable Cryptographic Auditability:** Security and compliance teams cannot verify *why* an agent executed an action, *what* evidence it considered, or *who* authorized it.
+1. **Tool failure snowballs into duplicate work:** retries, timeouts, and flaky downstream services can create storms, double writes, or silent data drift.
+2. **Unsafe promotions slip through:** a model, endpoint, or workflow promotion can escape into production without the right policy gate.
+3. **Evidence disappears after the fact:** teams cannot reconstruct what happened, who approved it, or how the runtime recovered.
 
 ---
 
-## 🏛️ The Solution: SovereignMesh Control Plane
+## 🏛️ The Solution: Agent Control Plane
 
-**SovereignMesh** establishes a unified **Zero-Trust Autonomous Agent Control Plane** built on Google Cloud's **Gemini Enterprise Agent Platform (GEAP)** architecture:
+**Agent Control Plane** establishes a unified runtime for AI workflows built around three layers:
 
 ```
                                ┌────────────────────────────────────────────────────────┐
-                               │           SovereignMesh Control Plane                  │
-                               │          Google Cloud GEAP Architecture                │
+                                │           Agent Control Plane                           │
+                                │         Resilience + Policy + Evidence                 │
                                └──────────────────────────┬─────────────────────────────┘
                                                           │
           ┌───────────────────────┬───────────────────────┼───────────────────────┬───────────────────────┐
           ▼                       ▼                       ▼                       ▼                       ▼
-    [Agent Registry]      [Zero-Trust ReBAC]      [Adversarial CHP]       [GEAP Memory Bank]      [Signed Ledger]
-   AGENTS.md contract      SpiceDB / Zanzibar    Proposer vs Challenger   Cross-session entity    SHA-256 Decision
-   5 Active Sentinels     Least-privilege gate   Adjudicator R0 scoring    memory & baselines      Lock Certificates
+    [Agent Registry]      [Zero-Trust ReBAC]      [Adversarial CHP]       [Runtime Shield]        [Signed Ledger]
+    Agent capabilities      SpiceDB / Zanzibar    Proposer vs Challenger   Retry budget + breaker  Signed trace certificates
+    Mesh roles              Least-privilege gate   Adjudicator R0 scoring   Idempotency guardrails  Replayable evidence
 ```
 
 ---
 
-## 🚀 The Five Pillars of Fortified Fleet Governance
+## 🚀 The Five Pillars of the Control Plane
 
-### 1. Enterprise Agent Registry (`AGENTS.md`)
-- Auto-discovers and validates agents via executable `AGENTS.md` and `SKILL.md` specifications.
-- Maps roles, capability scopes, and assigned models (**Gemini 2.5 Flash** for rapid operations, **Gemini 2.5 Pro** for adversarial deliberation).
+### 1. Agent Registry
+- Defines workflow, reliability, and ledger agents with explicit capability scopes.
+- Keeps the runtime small, typed, and easy to reason about.
 
 ### 2. Zero-Trust ReBAC Tool Interceptor
 - Implements Google Zanzibar Relationship-Based Access Control (`viewer`, `editor`, `executor`, `council_auditor`).
@@ -79,14 +81,14 @@ Enterprise adoption of autonomous multi-agent systems is paralyzed by three fund
 - Pre-execution payload inspection screening arguments for indirect prompt injection, role hijacking, directory traversals (`../../`), and secret exfiltration.
 
 ### 4. Consensus Hardening Protocol (CHP v1.0)
-- High-stakes actions (financial spend > $5,000, IAM modifications, unverified vendor accounts) trigger a 3-agent adversarial deliberation:
-  - **Round 1 (Proposer):** Formal business justification and parameter declaration.
-  - **Round 2 (Adversarial Challenger Red Team):** Cross-examines proposal against historical Memory Bank facts.
-  - **Round 3 (Sovereign Adjudicator):** Computes consensus confidence ratio $R_0$, verifies threshold floors ($R_0 \ge 0.85$), and generates an immutable cryptographic SHA-256 Decision Lock.
+- High-stakes actions trigger a 3-agent adversarial deliberation:
+  - **Round 1 (Proposer):** Formal operational justification and parameter declaration.
+  - **Round 2 (Adversarial Challenger Red Team):** Cross-examines the proposal against Memory Bank evidence.
+  - **Round 3 (Adjudicator):** Computes consensus confidence ratio $R_0$, verifies threshold floors ($R_0 \ge 0.85$), and generates an immutable cryptographic SHA-256 lock.
 
-### 5. GEAP Memory Bank & Signed Decision Ledger
-- Cross-session persistent entity memory tracking vendor trust scores, historical anomaly counts, and baseline IAM policies.
-- Generates downloadable JSON-LD cryptographic proof certificates for compliance audits.
+### 5. Runtime Shield + Signed Trace Ledger
+- Tracks queue depth, retries, breaker state, idempotency keys, and error budget.
+- Generates downloadable JSON-LD trace certificates for audits and replay.
 
 ---
 
@@ -94,9 +96,9 @@ Enterprise adoption of autonomous multi-agent systems is paralyzed by three fund
 
 | Scenario | Vector / Challenge | Gate Triggered | CHP Deliberation Outcome |
 |---|---|---|---|
-| **Tampered Invoice Attack** | An invoice payload attempts to redirect $18,500 to an unverified off-shore wire account with prompt injection instructions. | High-Stakes Spend ($18,500 > $5,000) & New Vendor (< 14 days) | Challenger detects Memory Bank routing mismatch $\rightarrow$ $R_0 = 0.05$ $\rightarrow$ **REJECTED** |
-| **Malicious Cloud IAM Escalation** | A simulated lateral movement alert prompts the SOC agent to remediate, but injected payload requests `roles/owner`. | Model Armor Critical Flag + ReBAC Scope Violation | Blocked immediately at the ReBAC / Model Armor Gate $\rightarrow$ **DENY** |
-| **Legitimate PO Clearance** | Routine $4,200 hardware replacement matching historical Memory Bank parameters and verified vendor credentials. | Policy Limit Check | Challenger confirms vendor trust score ($0.94$) $\rightarrow$ $R_0 = 0.92$ $\rightarrow$ **LOCKED (SHA-256 Minted)** |
+| **Retry Storm on a Flaky Tool Chain** | A timeout loop starts duplicating work unless the runtime enforces idempotency and a breaker. | High retry risk + new integration | Challenger trips the gate $\rightarrow$ **COUNTERSIGN_REQUIRED** |
+| **Model Gateway Policy Escalation** | A prompt or config change tries to promote a new model endpoint straight to production. | Deployment promotion + policy risk | Blocked at the policy / armor gate $\rightarrow$ **REJECTED** |
+| **Safe Release With Signed Trace** | A routine deployment should pass, commit a signed trace, and preserve replayable evidence. | Low-risk release + verified trace | Challenger confirms the path $\rightarrow$ $R_0 = 0.92$ $\rightarrow$ **LOCKED** |
 
 ---
 
@@ -104,7 +106,6 @@ Enterprise adoption of autonomous multi-agent systems is paralyzed by three fund
 
 ### Prerequisites
 - Node.js 20+
-- Google Cloud Project with Vertex AI / Model API (`aiplatform.googleapis.com`) enabled, or Application Default Credentials (ADC).
 
 ### Setup
 ```bash
@@ -119,7 +120,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to access the SovereignMesh Control Plane.
+Open [http://localhost:3000](http://localhost:3000) to access the Agent Control Plane.
 
 ---
 
@@ -138,16 +139,18 @@ sovereign-mesh/
 │   ├── page.tsx                       # Master Control Plane Dashboard
 │   ├── globals.css                    # Handcrafted design system (Vanilla CSS)
 │   └── api/
-│       ├── fleet/route.ts             # Agent Registry & quota status endpoint
+│       ├── fleet/route.ts             # Agent registry & quota status endpoint
 │       ├── rebac/route.ts             # Zanzibar ReBAC policy evaluator
-│       ├── memory/route.ts            # GEAP Memory Bank entity explorer
-│       └── deliberate/route.ts        # End-to-end CHP Deliberation & Decision Lock engine
+│       ├── runtime/route.ts           # Runtime resilience probe endpoint
+│       ├── memory/route.ts            # Evidence bank entity explorer
+│       └── deliberate/route.ts        # End-to-end CHP deliberation & decision lock engine
 ├── components/
 │   ├── DeliberationCouncil.tsx        # Live adversarial debate visualizer (Proposer vs Challenger)
 │   ├── ZeroTrustGate.tsx              # Real-time Zanzibar ReBAC tool interceptor
+│   ├── RuntimeControl.tsx             # Retry / breaker / trace runtime dashboard
 │   ├── FleetRegistry.tsx              # Active agent catalog & capability matrix
-│   ├── MemoryBankViewer.tsx           # Searchable cross-session entity memory store
-│   └── AuditLedger.tsx                # Signed decision certificates & JSON-LD exporter
+│   ├── MemoryBankViewer.tsx           # Searchable evidence store
+│   └── AuditLedger.tsx                # Signed trace certificates & JSON-LD exporter
 └── lib/
     ├── gemini.ts                      # Google GenAI SDK integration with ADC
     ├── rebac-engine.ts                # Zanzibar ReBAC relationship graph logic

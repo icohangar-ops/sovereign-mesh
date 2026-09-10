@@ -79,7 +79,7 @@ export interface SignedDecisionLock {
 
 export interface MemoryEntity {
   id: string;
-  category: 'VENDOR' | 'IAM_POLICY' | 'TRANSACTION' | 'INCIDENT' | 'AUDIT';
+  category: 'SERVICE' | 'MODEL' | 'RELEASE' | 'AUDIT' | 'VENDOR' | 'IAM_POLICY' | 'TRANSACTION' | 'INCIDENT';
   name: string;
   attributes: Record<string, unknown>;
   trustScore: number;
@@ -91,7 +91,7 @@ export interface MemoryEntity {
 export interface EnterpriseScenario {
   id: string;
   name: string;
-  category: 'PROCURE_TO_PAY' | 'CLOUD_IAM' | 'SUPPLY_CHAIN';
+  category: 'PROCURE_TO_PAY' | 'CLOUD_IAM' | 'SUPPLY_CHAIN' | 'PIPELINE_GUARD' | 'RETRY_STORM' | 'RELEASE_GATING';
   difficulty: 'STANDARD' | 'ATTACK_VECTOR' | 'HIGH_STAKES';
   description: string;
   initiatingAgentId: string;
@@ -103,4 +103,30 @@ export interface EnterpriseScenario {
   };
   simulatedPayload: string;
   expectedOutcome: 'LOCKED' | 'REJECTED' | 'COUNTERSIGN_REQUIRED';
+}
+
+export interface RuntimeTraceStep {
+  stage: string;
+  status: 'PASS' | 'RETRY' | 'OPEN' | 'COMMIT' | 'BLOCK';
+  detail: string;
+}
+
+export interface RuntimeAssessment {
+  id: string;
+  decisionId: string;
+  title: string;
+  mode: 'STEADY' | 'DEGRADED' | 'FAIL_CLOSED';
+  breakerState: 'CLOSED' | 'HALF_OPEN' | 'OPEN';
+  retries: number;
+  queueDepth: number;
+  p95LatencyMs: number;
+  errorBudgetRemaining: number;
+  idempotencyKey: string;
+  modelEndpoint: string;
+  toolHealth: Array<{ name: string; attempts: number; status: 'PASS' | 'RETRY' | 'BLOCK' }>;
+  trace: RuntimeTraceStep[];
+  riskScore: number;
+  sanitized: boolean;
+  note: string;
+  createdAt: string;
 }

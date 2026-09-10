@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'SovereignMesh — Fortified Enterprise Agent Control Plane',
+  title: 'Agent Control Plane — AI Infra Summit',
   description:
-    'Zero-Trust ReBAC, Model Armor Guardrails, and Consensus Hardening Protocol (CHP v1.0) for Autonomous Enterprise Agent Fleets.',
+    'A production-grade AI control plane with consensus hardening, runtime resilience, and signed trace ledgers.',
 };
 
 export default function RootLayout({
