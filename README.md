@@ -24,6 +24,16 @@
 
 ---
 
+<!-- product-screenshots:start -->
+## Product screenshots
+
+Agent Control Plane benchmark screen in its standby state, with scenario selection and the consensus request payload.
+
+![sovereign-mesh product interface](docs/screenshots/product-overview.png)
+
+Captured from the [live UI](https://sovereign-mesh-three.vercel.app) on October 2, 2026. No payment, generation, or other action was submitted to create this capture.
+<!-- product-screenshots:end -->
+
 ## 🎬 3-Minute Demo Video & Storyboard
 
 A complete scene-by-scene demo video storyboard with Veo and Gemini generation prompts is documented at [docs/DEMO_VIDEO_SCRIPT.md](docs/DEMO_VIDEO_SCRIPT.md).
